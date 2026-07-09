@@ -8,18 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('company')->after('name');
-            $table->string('phone')->nullable()->after('email');
-            $table->string('provider')->nullable()->after('password');
-            $table->string('provider_id')->nullable()->after('provider');
-        });
+        // Colonnes déjà ajoutées dans 0001_01_01_000000_create_users_table
+        // Migration conservée pour l'historique mais désormais no-op
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['company', 'phone', 'provider', 'provider_id']);
-        });
+        // No-op
     }
 };

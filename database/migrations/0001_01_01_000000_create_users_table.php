@@ -8,18 +8,23 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
             $table->string('company')->after('name');
+            $table->string('email')->unique();
             $table->string('phone')->nullable()->after('email');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->string('provider')->nullable()->after('password');   // 'google' | 'facebook' | null
             $table->string('provider_id')->nullable()->after('provider');
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['company', 'phone', 'provider', 'provider_id']);
-        });
+        Schema::dropIfExists('users');
     }
 };

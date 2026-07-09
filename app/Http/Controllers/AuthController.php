@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use function Illuminate\Log\log;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        try {
+
         $data = $request->validate([
             'company'  => 'required|string|max:255',
             'manager'  => 'required|string|max:255',
@@ -31,7 +34,12 @@ class AuthController extends Controller
         $token = $user->createToken('web')->plainTextToken;
 
         return response()->json(['user' => $user, 'token' => $token], 201);
-    }
+
+        } catch (\Throwable $th) {
+            log($th->getMessage());
+            // throw $th;
+        }
+        }
 
     public function login(Request $request)
     {
